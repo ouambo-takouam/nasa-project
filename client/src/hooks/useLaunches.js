@@ -50,6 +50,9 @@ function useLaunches(onSuccessSound, onAbortSound, onFailureSound) {
 	const abortLaunch = useCallback(
 		async (id) => {
 			const response = await httpAbortLaunch(id);
+			console.log(response);
+			const data = await response.json();
+			console.log(data);
 
 			// TODO: Set success based on response.
 			const success = response.ok;
