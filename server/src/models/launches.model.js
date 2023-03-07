@@ -29,10 +29,6 @@ function addNewLaunch(launch) {
 		success: true,
 		...launch,
 	});
-
-	return {
-		response: true,
-	};
 }
 
 module.exports = {
