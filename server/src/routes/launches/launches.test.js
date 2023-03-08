@@ -7,15 +7,36 @@ describe('Test GET /launches', () => {
 			.get('/launches')
 			.expect('Content-Type', /json/)
 			.expect(200);
-
-		// .end(function (err, res) {
-		// 	if (err) throw err;
-		// });
 	});
 });
 
 describe('Test POST /launch', () => {
-	test('It should respond with 200 success', () => {});
+	const completedLaunchData = {
+		mission: 'USS Enterprise',
+		rocket: 'NCC 45710',
+		target: 'Kepler',
+		launchDate: 'January 4, 2028',
+	};
+
+	const launchDataWithoutDate = {
+		mission: 'USS Enterprise',
+		rocket: 'NCC 45710',
+		target: 'Kepler',
+	};
+
+	test('It should respond with 201 created', async () => {
+		const response = await request(app)
+			.post('/launches')
+			.send(completedLaunchData)
+			.expect('Content-Type', /json/)
+			.expect(201);
+
+		const requestDate = new Date(completedLaunchData.launchDate).valueOf();
+		const responseDate = new Date(response.body.launchDate).valueOf();
+
+		expect(responseDate).toBe(requestDate);
+		expect(response.body).toMatchObject(launchDataWithoutDate);
+	});
 	test('It should catch missing required properties', () => {});
 	test('It should catch invalid dates', () => {});
 });
